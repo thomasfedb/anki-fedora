@@ -107,12 +107,12 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
-* Fri Feb 27 2009 Christian Krause <chkr@plauener.de> - 0.9.9.6-3
-- proper packaging of locale files
+* Fri Feb 27 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.6-3
+- Proper packaging of locale files
 
-* Fri Feb 13 2009 Christian Krause <chkr@plauener.de> - 0.9.9.6-2
+* Fri Feb 13 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.6-2
 - Fixed license field
 - Install unihan.db
 
-* Wed Feb 11 2009 Christian Krause <chkr@plauener.de> - 0.9.9.6-1
-- First spec file for anki.
+* Wed Feb 11 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.6-1
+- First spec file for anki
