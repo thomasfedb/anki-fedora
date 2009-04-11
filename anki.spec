@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	0.9.9.7.1
+Version:	0.9.9.7.4
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -17,10 +17,10 @@ Patch0:		anki-0.9.9.7.1-noupdate.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	PyQt4-devel
-BuildRequires:  desktop-file-utils
+BuildRequires:	desktop-file-utils
 Requires:	qt4, PyQt4
 Requires:	python-sqlalchemy, python-simplejson, python-sqlite2
-Requires:	numpy
+Requires:	python-matplotlib
 Requires:	pygame
 BuildArch:	noarch
 
@@ -100,6 +100,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sat Apr 11 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.7.4-1
+- Update to new upstream version 0.9.9.7.4 (BZ 494598)
+- Require python-matplotlib instead of numpy (BZ 495232)
+
 * Wed Apr 01 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.7.1-1
 - Update to new upstream version 0.9.9.7.1
 - Drop unihaninstall patch (applied upstream)
