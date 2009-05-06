@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	0.9.9.7.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -101,6 +101,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Thu May 07 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.7.8-2
+- Bump release
+
 * Wed May 06 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.7.8-1
 - Update to new upstream version 0.9.9.7.8
 
