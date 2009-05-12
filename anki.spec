@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	0.9.9.7.8
-Release:	2%{?dist}
+Version:	0.9.9.7.9
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -101,6 +101,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Tue May 12 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.7.9-1
+- Update to new upstream version 0.9.9.7.9 to fix an update problem of the 
+statusbar and of the titlebar
+
 * Thu May 07 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.7.8-2
 - Bump release
 
