@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	0.9.9.7.9b
+Version:	0.9.9.8.4
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -75,7 +75,6 @@ rm -rf %{buildroot}
 %dir %{python_sitelib}/anki
 %{python_sitelib}/anki/*.py*
 %{python_sitelib}/anki/importing
-%{python_sitelib}/anki/features
 
 # locale
 %dir %{python_sitelib}/ankiqt/locale/
@@ -93,7 +92,8 @@ rm -rf %{buildroot}
 %lang(sv) %{python_sitelib}/*/locale/sv_*/
 %lang(pt) %{python_sitelib}/*/locale/pt_*/
 %lang(ee) %{python_sitelib}/*/locale/ee_*/
-%lang(ee) %{python_sitelib}/*/locale/mn_*/
+%lang(mn) %{python_sitelib}/*/locale/mn_*/
+%lang(nb) %{python_sitelib}/*/locale/nb_*/
 
 %{python_sitelib}/*egg-info
 %{_bindir}/anki
@@ -101,6 +101,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Thu Jul 02 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.4-1
+- Update to new upstream version 0.9.9.8.4
+- fix one %%lang tag
+
 * Sun May 24 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.7.9b-1
 - Update to new upstream version 0.9.9.7.9b to fix a syncing bug
 
