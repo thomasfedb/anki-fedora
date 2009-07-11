@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	0.9.9.8.4
+Version:	0.9.9.8.5
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -79,21 +79,28 @@ rm -rf %{buildroot}
 # locale
 %dir %{python_sitelib}/ankiqt/locale/
 %dir %{python_sitelib}/anki/locale/
-%lang(cs) %{python_sitelib}/*/locale/cs_*/
-%lang(de) %{python_sitelib}/*/locale/de_*/
-%lang(es) %{python_sitelib}/*/locale/es_*/
-%lang(fi) %{python_sitelib}/*/locale/fi_*/
-%lang(fr) %{python_sitelib}/*/locale/fr_*/
-%lang(it) %{python_sitelib}/*/locale/it_*/
-%lang(ja) %{python_sitelib}/*/locale/ja_*/
-%lang(ko) %{python_sitelib}/*/locale/ko_*/
-%lang(pl) %{python_sitelib}/*/locale/pl_*/
-%lang(zh) %{python_sitelib}/*/locale/zh_*/
-%lang(sv) %{python_sitelib}/*/locale/sv_*/
-%lang(pt) %{python_sitelib}/*/locale/pt_*/
-%lang(ee) %{python_sitelib}/*/locale/ee_*/
-%lang(mn) %{python_sitelib}/*/locale/mn_*/
-%lang(nb) %{python_sitelib}/*/locale/nb_*/
+%lang(cs) %{python_sitelib}/*/locale/cs*/
+%lang(de) %{python_sitelib}/*/locale/de*/
+%lang(es) %{python_sitelib}/*/locale/es*/
+%lang(fi) %{python_sitelib}/*/locale/fi*/
+%lang(fr) %{python_sitelib}/*/locale/fr*/
+%lang(it) %{python_sitelib}/*/locale/it*/
+%lang(ja) %{python_sitelib}/*/locale/ja*/
+%lang(ko) %{python_sitelib}/*/locale/ko*/
+%lang(pl) %{python_sitelib}/*/locale/pl*/
+%lang(zh) %{python_sitelib}/*/locale/zh*/
+%lang(sv) %{python_sitelib}/*/locale/sv*/
+%lang(pt) %{python_sitelib}/*/locale/pt*/
+%lang(eo) %{python_sitelib}/*/locale/eo*/
+%lang(et) %{python_sitelib}/*/locale/et*/
+%lang(nl) %{python_sitelib}/*/locale/nl*/
+%lang(ro) %{python_sitelib}/*/locale/ro*/
+%lang(ru) %{python_sitelib}/*/locale/ru*/
+%lang(mn) %{python_sitelib}/*/locale/mn*/
+%lang(nb) %{python_sitelib}/*/locale/nb*/
+%lang(he) %{python_sitelib}/*/locale/he*/
+%lang(ar) %{python_sitelib}/*/locale/ar*/
+%lang(hu) %{python_sitelib}/*/locale/hu*/
 
 %{python_sitelib}/*egg-info
 %{_bindir}/anki
@@ -101,6 +108,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sun Jul 12 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.5-1
+- Update to new upstream version 0.9.9.8.5
+
 * Thu Jul 02 2009 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.4-1
 - Update to new upstream version 0.9.9.8.4
 - fix one %%lang tag
