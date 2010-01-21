@@ -1,8 +1,14 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
+
+%global		gitdate	    20100120
+%global		libanki_gitcommit 33aede4d566a91ff3c57b9e892ca1a9ce03a9ae5
+%global		ankiqt_gitcommit a3b3e7312a2f99ac98762c8d16a6dbf884bd2157
+
 Name:		anki
 Version:	0.9.9.8.5
-Release:	2%{?dist}
+#Release:	2%{?dist}
+Release:	3.git%{gitdate}%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -10,7 +16,10 @@ Group:		Amusements/Games
 # was created out of  Unihan.txt from www.unicode.org (MIT license)
 License:	GPLv3+ and MIT
 URL:		http://www.ichi2.net/anki
-Source0:	http://ichi2.net/anki/download/files/%{name}-%{version}.tgz
+# based on libdrm's make-git-snapshot.sh 
+# sh anki-make-git-snapshot.sh <libanki_gitcommit> <ankiqt_gitcommit> <gitdate>
+#Source0:	http://ichi2.net/anki/download/files/%{name}-%{version}.tgz
+Source0:	%{name}-%{gitdate}.tgz
 
 # Config change: don't check for new updates.
 Patch0:		anki-0.9.9.7.8-noupdate.patch
@@ -30,14 +39,18 @@ and phrases in a foreign language) as easily, quickly and efficiently
 as possible. Anki is based on a theory called spaced repetition.
 
 %prep
-%setup -q
+#%setup -q
+%setup -q -n %{name}-%{gitdate}
 %patch0 -p1 -b .noupdate 
+
+sed -i -e 's/5 (snapshot)/5.99/' ankiqt/__init__.py
+sed -i -e 's/5 (snapshot)/5.99/' libanki/anki/__init__.py
 
 %build
 pushd libanki
 %{__python} setup.py build
 popd
-
+tools/build_ui.sh
 %{__python} setup.py build
 
 
@@ -58,13 +71,24 @@ desktop-file-install \
 install -d %{buildroot}%{_datadir}/pixmaps
 install -m 644 icons/anki.png %{buildroot}%{_datadir}/pixmaps/
 
+find %{buildroot} -type f -o -type l|sed '
+s:'"%{buildroot}"'::
+s:\(.*/lib/python2.6/site-packages/ankiqt/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
+s:\(.*/lib/python2.6/site-packages/anki/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
+s:^\([^%].*\)::
+s:%lang(C) ::
+/^$/d' > anki.lang
+
+
+
 %clean
 rm -rf %{buildroot}
 
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc COPYING ChangeLog CREDITS README*
+#%doc ChangeLog
+%doc COPYING CREDITS README*
 # libankiqt
 %dir %{python_sitelib}/ankiqt
 %{python_sitelib}/ankiqt/*.py*
@@ -78,29 +102,11 @@ rm -rf %{buildroot}
 
 # locale
 %dir %{python_sitelib}/ankiqt/locale/
+%dir %{python_sitelib}/ankiqt/locale/*
+%dir %{python_sitelib}/ankiqt/locale/*/LC_MESSAGES
 %dir %{python_sitelib}/anki/locale/
-%lang(cs) %{python_sitelib}/*/locale/cs*/
-%lang(de) %{python_sitelib}/*/locale/de*/
-%lang(es) %{python_sitelib}/*/locale/es*/
-%lang(fi) %{python_sitelib}/*/locale/fi*/
-%lang(fr) %{python_sitelib}/*/locale/fr*/
-%lang(it) %{python_sitelib}/*/locale/it*/
-%lang(ja) %{python_sitelib}/*/locale/ja*/
-%lang(ko) %{python_sitelib}/*/locale/ko*/
-%lang(pl) %{python_sitelib}/*/locale/pl*/
-%lang(zh) %{python_sitelib}/*/locale/zh*/
-%lang(sv) %{python_sitelib}/*/locale/sv*/
-%lang(pt) %{python_sitelib}/*/locale/pt*/
-%lang(eo) %{python_sitelib}/*/locale/eo*/
-%lang(et) %{python_sitelib}/*/locale/et*/
-%lang(nl) %{python_sitelib}/*/locale/nl*/
-%lang(ro) %{python_sitelib}/*/locale/ro*/
-%lang(ru) %{python_sitelib}/*/locale/ru*/
-%lang(mn) %{python_sitelib}/*/locale/mn*/
-%lang(nb) %{python_sitelib}/*/locale/nb*/
-%lang(he) %{python_sitelib}/*/locale/he*/
-%lang(ar) %{python_sitelib}/*/locale/ar*/
-%lang(hu) %{python_sitelib}/*/locale/hu*/
+%dir %{python_sitelib}/anki/locale/*
+%dir %{python_sitelib}/anki/locale/*/LC_MESSAGES
 
 %{python_sitelib}/*egg-info
 %{_bindir}/anki
@@ -108,6 +114,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Wed Jan 20 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.5-3.git20100120
+- Update to git snapshot
+- Includes fix for BZ 546331
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.9.8.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
