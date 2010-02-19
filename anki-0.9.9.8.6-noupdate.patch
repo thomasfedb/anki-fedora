@@ -1,0 +1,12 @@
+diff -uNr anki-0.9.9.8.6.old/ankiqt/config.py anki-0.9.9.8.6/ankiqt/config.py
+--- anki-0.9.9.8.6.old/ankiqt/config.py	2010-02-12 10:01:03.000000000 +0100
++++ anki-0.9.9.8.6/ankiqt/config.py	2010-02-19 22:46:05.000000000 +0100
+@@ -43,7 +43,7 @@
+         fields = {
+             'addZeroSpace': False,
+             'alternativeTheme': False,
+-            'checkForUpdates': True,
++            'checkForUpdates': False,
+             'created': time.time(),
+             'deckBrowserNameLength': 30,
+             'deckBrowserOrder': 0,
