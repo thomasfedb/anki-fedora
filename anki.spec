@@ -23,7 +23,7 @@ Source1:	generate-anki-tarball.sh
 Patch0:		anki-0.9.9.8.6-noupdate.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
-BuildRequires:	desktop-file-utils
+BuildRequires:	desktop-file-utils, PyQt4
 Requires:	qt4, PyQt4
 Requires:	python-sqlalchemy, python-simplejson, python-sqlite2
 Requires:	python-matplotlib
