@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	0.9.9.8.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -21,6 +21,8 @@ Source1:	generate-anki-tarball.sh
 
 # Config change: don't check for new updates.
 Patch0:		anki-0.9.9.8.6-noupdate.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=567672
+Patch1:		0001-Fix-crash-with-enabled-sys-tray-icon.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4
@@ -38,6 +40,7 @@ as possible. Anki is based on a theory called spaced repetition.
 %prep
 %setup -q
 %patch0 -p1 -b .noupdate 
+%patch1 -p1 -b .trayicon_crash
 
 %build
 pushd libanki
@@ -107,6 +110,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sun Feb 28 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-2
+- Add a patch to fix a crash when sys tray icon is enabled (BZ 567672)
+
 * Fri Feb 19 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-1
 - Update to new upstream version
 - Remove example files from upstream tarball due to unknown license
