@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	0.9.9.8.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -23,6 +23,8 @@ Source1:	generate-anki-tarball.sh
 Patch0:		anki-0.9.9.8.6-noupdate.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=567672
 Patch1:		0001-Fix-crash-with-enabled-sys-tray-icon.patch
+# Upstream patch to prevent anki hanging during audio recording
+Patch2:		0001-don-t-specify-an-input-index-by-default.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4
@@ -30,6 +32,7 @@ Requires:	qt4, PyQt4
 Requires:	python-sqlalchemy, python-simplejson, python-sqlite2
 Requires:	python-matplotlib
 Requires:	pygame, python-BeautifulSoup
+Requires:	pyaudio
 BuildArch:	noarch
 
 %description
@@ -41,6 +44,9 @@ as possible. Anki is based on a theory called spaced repetition.
 %setup -q
 %patch0 -p1 -b .noupdate 
 %patch1 -p1 -b .trayicon_crash
+pushd libanki
+%patch2 -p1 -b .pyaudio_fix
+popd
 
 %build
 pushd libanki
@@ -110,6 +116,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Thu May 13 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-3
+- Add pyaudio as requirement for audio recording
+- Add upstream patch to prevent anki hanging during audio recording
+
 * Sun Feb 28 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-2
 - Add a patch to fix a crash when sys tray icon is enabled (BZ 567672)
 
