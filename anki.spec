@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	0.9.9.8.6
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -116,6 +116,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 0.9.9.8.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
+
 * Thu May 13 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-3
 - Add pyaudio as requirement for audio recording
 - Add upstream patch to prevent anki hanging during audio recording
