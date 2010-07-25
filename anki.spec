@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	0.9.9.8.6
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -75,8 +75,8 @@ install -m 644 icons/anki.png %{buildroot}%{_datadir}/pixmaps/
 
 find %{buildroot} -type f -o -type l|sed '
 s:'"%{buildroot}"'::
-s:\(.*/lib/python2.6/site-packages/ankiqt/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
-s:\(.*/lib/python2.6/site-packages/anki/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
+s:\(.*/lib/python2\..*/site-packages/ankiqt/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
+s:\(.*/lib/python2\..*/site-packages/anki/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
 s:^\([^%].*\)::
 s:%lang(C) ::
 /^$/d' > anki.lang
@@ -116,6 +116,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sun Jul 25 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-5
+- Generalized generation of anki.lang to support any python 2.* release
+
 * Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 0.9.9.8.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
