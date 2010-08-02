@@ -1,30 +1,19 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	0.9.9.8.6
-Release:	5%{?dist}
+Version:	1.0
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
-# the file anki-%{version}/libanki/anki/features/chinese/unihan.db 
+# the file anki-%%{version}/libanki/anki/features/chinese/unihan.db 
 # was created out of  Unihan.txt from www.unicode.org (MIT license)
 License:	GPLv3+ and MIT
 URL:		http://www.ichi2.net/anki
-Source0:	%{name}-%{version}-nosamples.tgz
-# anki contains samples with an unclear license
-# this script to remove all samples since they are not installed anyway
-# Download the upstream tarball and invoke this script while in the
-# tarball's directory:
-# sh generate-anki-tarball.sh 0.9.9.8.6
-# upstream tarball: http://anki.googlecode.com/files/%{name}-%{version}.tgz
-Source1:	generate-anki-tarball.sh
+Source0:	http://anki.googlecode.com/files/%{name}-%{version}.tgz
 
 # Config change: don't check for new updates.
-Patch0:		anki-0.9.9.8.6-noupdate.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=567672
-Patch1:		0001-Fix-crash-with-enabled-sys-tray-icon.patch
-# Upstream patch to prevent anki hanging during audio recording
-Patch2:		0001-don-t-specify-an-input-index-by-default.patch
+Patch0:		anki-1.0-noupdate.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4
@@ -43,10 +32,6 @@ as possible. Anki is based on a theory called spaced repetition.
 %prep
 %setup -q
 %patch0 -p1 -b .noupdate 
-%patch1 -p1 -b .trayicon_crash
-pushd libanki
-%patch2 -p1 -b .pyaudio_fix
-popd
 
 %build
 pushd libanki
@@ -116,6 +101,13 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Mon Aug 02 2010 Christian Krause <chkr@fedoraproject.org> - 1.0-1
+- Update to new upstream version 1.0
+- Use original upstream tgz since upstream doesn't ship the problematic
+  example files anymore
+- Remove upstreamed patches
+- Update noupdate patch
+
 * Sun Jul 25 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-5
 - Generalized generation of anki.lang to support any python 2.* release
 
