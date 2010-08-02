@@ -16,7 +16,7 @@ Source0:	http://anki.googlecode.com/files/%{name}-%{version}.tgz
 Patch0:		anki-1.0-noupdate.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
-BuildRequires:	desktop-file-utils, PyQt4
+BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
 Requires:	qt4, PyQt4
 Requires:	python-sqlalchemy, python-simplejson, python-sqlite2
 Requires:	python-matplotlib
@@ -107,6 +107,7 @@ rm -rf %{buildroot}
   example files anymore
 - Remove upstreamed patches
 - Update noupdate patch
+- Add BR python-simplejson
 
 * Sun Jul 25 2010 Christian Krause <chkr@fedoraproject.org> - 0.9.9.8.6-5
 - Generalized generation of anki.lang to support any python 2.* release
