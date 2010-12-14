@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	1.0.1
+Version:	1.1.10
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -9,7 +9,7 @@ Group:		Amusements/Games
 # the file anki-%%{version}/libanki/anki/features/chinese/unihan.db 
 # was created out of  Unihan.txt from www.unicode.org (MIT license)
 License:	GPLv3+ and MIT
-URL:		http://www.ichi2.net/anki
+URL:		http://ankisrs.net/
 Source0:	http://anki.googlecode.com/files/%{name}-%{version}.tgz
 
 # Config change: don't check for new updates.
@@ -86,6 +86,7 @@ rm -rf %{buildroot}
 %dir %{python_sitelib}/anki
 %{python_sitelib}/anki/*.py*
 %{python_sitelib}/anki/importing
+%{python_sitelib}/anki/template
 
 # locale
 %dir %{python_sitelib}/ankiqt/locale/
@@ -101,6 +102,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Tue Dec 14 2010 Christian Krause <chkr@fedoraproject.org> - 1.1.10-1
+- Update to new upstream version 1.1.10 (BZ 655939)
+
 * Sat Aug 21 2010 Christian Krause <chkr@fedoraproject.org> - 1.0.1-1
 - Update to new upstream version 1.0.1
 
