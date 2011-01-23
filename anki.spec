@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	1.2.2
+Version:	1.2.4
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -103,6 +103,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sun Jan 23 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.4-1
+- Update to new upstream version 1.2.4 (BZ 665163)
+
 * Fri Jan 14 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.2-1
 - Update to new upstream version 1.2.2 (BZ 665163)
 
