@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	1.2.6
-Release:	2%{?dist}
+Version:	1.2.7
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -21,7 +21,7 @@ Requires:	qt4, PyQt4
 Requires:	python-sqlalchemy, python-simplejson, python-sqlite2
 Requires:	python-matplotlib
 Requires:	pygame, python-BeautifulSoup
-Requires:	pyaudio
+Requires:	pyaudio, sox
 BuildArch:	noarch
 
 %description
@@ -103,6 +103,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sun Feb 27 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.7-1
+- Update to new upstream version 1.2.7 (BZ 678848)
+- Add sox as requirement for audio recording (BZ 674493)
+
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
