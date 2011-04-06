@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	1.2.7
+Version:	1.2.8
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -103,6 +103,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Tue Apr 05 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.8-1
+- Update to new upstream version 1.2.8 (BZ 691342)
+
 * Sun Feb 27 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.7-1
 - Update to new upstream version 1.2.7 (BZ 678848)
 - Add sox as requirement for audio recording (BZ 674493)
