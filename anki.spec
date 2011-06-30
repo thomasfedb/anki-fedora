@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	1.2.8
-Release:	2%{?dist}
+Version:	1.2.9
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -14,9 +14,8 @@ Source0:	http://anki.googlecode.com/files/%{name}-%{version}.tgz
 
 # Config change: don't check for new updates.
 Patch0:		anki-1.0-noupdate.patch
-# https://github.com/dae/libanki/commit/0e8df85619bb0588750b20446d4d8a02de5c73cc
-# https://github.com/dae/libanki/commit/e318f7686c02d4de25804fbdaa85c07f442f80d3
-Patch1:		anki-1.2.8-sqlalchemy-0.7.patch
+# Avoid unicode error message on startup
+Patch1:		anki-1.2.9-unicode.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
@@ -35,9 +34,7 @@ as possible. Anki is based on a theory called spaced repetition.
 %prep
 %setup -q
 %patch0 -F 9 -p1 -b .noupdate
-pushd libanki
-%patch1 -p1 -b .sqlalchemy-0.7
-popd
+%patch1 -p1 -b .unicode
 %{__sed} -i -e '/^#!\//, 1d' ankiqt/ui/dropbox.py
 
 %build
@@ -109,6 +106,12 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Thu Jun 30 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.9-1
+- Update to new upstream version 1.2.9 (BZ 717584) to fix more
+  compatibility issues with python-sqlalchemy-0.7.x
+- Remove upstreamed patches
+- Add patch to avoid unicode error messages on startup
+
 * Tue Jun 28 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.8-2
 - Fix FTBFS issue (BZ 715813)
 - Adding two upstream patches to support python-sqlalchemy-0.7.x
