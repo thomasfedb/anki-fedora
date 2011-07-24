@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	1.2.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -11,6 +11,7 @@ Group:		Amusements/Games
 License:	GPLv3+ and MIT
 URL:		http://ankisrs.net/
 Source0:	http://anki.googlecode.com/files/%{name}-%{version}.tgz
+Source1:	anki.svg
 
 # Config change: don't check for new updates.
 Patch0:		anki-1.0-noupdate.patch
@@ -60,7 +61,7 @@ desktop-file-install \
   %{name}.desktop
 
 install -d %{buildroot}%{_datadir}/pixmaps
-install -m 644 icons/anki.png %{buildroot}%{_datadir}/pixmaps/
+install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/pixmaps/
 
 find %{buildroot} -type f -o -type l|sed '
 s:'"%{buildroot}"'::
@@ -103,9 +104,13 @@ rm -rf %{buildroot}
 %{python_sitelib}/*egg-info
 %{_bindir}/anki
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/%{name}.png
+%{_datadir}/pixmaps/%{name}.svg
 
 %changelog
+* Sun Jul 24 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.9-2
+- Add and install  svg version of anki's icon
+(extracted from anki-1.2.9/icons/anki-logo.svg)
+
 * Thu Jun 30 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.9-1
 - Update to new upstream version 1.2.9 (BZ 717584) to fix more
   compatibility issues with python-sqlalchemy-0.7.x
