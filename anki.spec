@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	1.2.9
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -107,6 +107,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.svg
 
 %changelog
+* Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Sun Jul 24 2011 Christian Krause <chkr@fedoraproject.org> - 1.2.9-2
 - Add and install  svg version of anki's icon
 (extracted from anki-1.2.9/icons/anki-logo.svg)
