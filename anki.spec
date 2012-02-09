@@ -1,8 +1,8 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
 Version:	1.2.9
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -18,10 +18,10 @@ Patch0:		anki-1.0-noupdate.patch
 # Avoid unicode error message on startup
 Patch1:		anki-1.2.9-unicode.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	python-devel, python-setuptools, python-sqlalchemy
+BuildRequires:	python2-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
 Requires:	qt4, PyQt4
-Requires:	python-sqlalchemy, python-simplejson, python-sqlite2
+Requires:	python-sqlalchemy, python-simplejson
 Requires:	python-matplotlib
 Requires:	pygame, python-BeautifulSoup
 Requires:	pyaudio, sox
@@ -49,10 +49,10 @@ popd
 %install
 rm -rf %{buildroot}
 pushd libanki
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python} setup.py install --skip-build --root %{buildroot}
 popd
 
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python} setup.py install --skip-build --root %{buildroot}
 
 install -d %{buildroot}%{_datadir}/applications
 desktop-file-install \
@@ -107,6 +107,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.svg
 
 %changelog
+* Wed Feb  8 2012 Toshio Kuratomi <toshio@fedoraproject.org> - 1.2.9-4
+- Remove python-sqlite2 dep as anki will work with the stdlib sqlite3 module
+
 * Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
