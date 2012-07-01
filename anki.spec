@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	1.2.9
-Release:	4%{?dist}
+Version:	1.2.11
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -15,8 +15,6 @@ Source1:	anki.svg
 
 # Config change: don't check for new updates.
 Patch0:		anki-1.0-noupdate.patch
-# Avoid unicode error message on startup
-Patch1:		anki-1.2.9-unicode.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	python2-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
@@ -35,7 +33,6 @@ as possible. Anki is based on a theory called spaced repetition.
 %prep
 %setup -q
 %patch0 -F 9 -p1 -b .noupdate
-%patch1 -p1 -b .unicode
 %{__sed} -i -e '/^#!\//, 1d' ankiqt/ui/dropbox.py
 
 %build
@@ -107,6 +104,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/%{name}.svg
 
 %changelog
+* Sun Jul 01 2012 Christian Krause <chkr@fedoraproject.org> - 1.2.11-1
+- Update to new upstream version 1.2.11 (BZ 819821)
+- Remove patch (issue was fixed upstream)
+
 * Wed Feb  8 2012 Toshio Kuratomi <toshio@fedoraproject.org> - 1.2.9-4
 - Remove python-sqlite2 dep as anki will work with the stdlib sqlite3 module
 
