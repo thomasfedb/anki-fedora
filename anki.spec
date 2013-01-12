@@ -1,27 +1,24 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	1.2.11
-Release:	2%{?dist}
+Version:	2.0.4
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
-# the file anki-%%{version}/libanki/anki/features/chinese/unihan.db 
-# was created out of  Unihan.txt from www.unicode.org (MIT license)
-License:	GPLv3+ and MIT
+License:	AGPLv3+ and GPLv3+ and MIT and BSD
 URL:		http://ankisrs.net/
-Source0:	http://anki.googlecode.com/files/%{name}-%{version}.tgz
+Source0:	http://ankisrs.net/download/mirror/anki-%{version}.tgz
 Source1:	anki.svg
 
 # Config change: don't check for new updates.
-Patch0:		anki-1.0-noupdate.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Patch0:		anki-2.0.3-noupdate.patch
 BuildRequires:	python2-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
 Requires:	qt4, PyQt4
 Requires:	python-sqlalchemy, python-simplejson
 Requires:	python-matplotlib
-Requires:	pygame, python-BeautifulSoup
+Requires:	pygame, python-BeautifulSoup, python-httplib2
 Requires:	pyaudio, sox
 BuildArch:	noarch
 
@@ -32,78 +29,81 @@ as possible. Anki is based on a theory called spaced repetition.
 
 %prep
 %setup -q
-%patch0 -F 9 -p1 -b .noupdate
-%{__sed} -i -e '/^#!\//, 1d' ankiqt/ui/dropbox.py
+rm -rf libanki/thirdparty
+%patch0 -p1 -b .noupdate
 
 %build
-pushd libanki
-%{__python} setup.py build
-popd
-
-%{__python} setup.py build
-
 
 %install
-rm -rf %{buildroot}
-pushd libanki
-%{__python} setup.py install --skip-build --root %{buildroot}
-popd
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -R aqt %{buildroot}%{_datadir}/%{name}/
+cp -R designer %{buildroot}%{_datadir}/%{name}/
+cp -R anki %{buildroot}%{_datadir}/%{name}/
+cp -R locale %{buildroot}%{_datadir}/%{name}/
 
-%{__python} setup.py install --skip-build --root %{buildroot}
+install -d %{buildroot}%{_bindir}
+install -m 755 runanki %{buildroot}%{_bindir}/anki
 
-install -d %{buildroot}%{_datadir}/applications
+install -d %{buildroot}%{_docdir}/%{name}-%{version}
+install -m 644 LICENSE.* %{buildroot}%{_docdir}/%{name}-%{version}/
+install -m 644 README* %{buildroot}%{_docdir}/%{name}-%{version}/
+
+install -d %{buildroot}%{_datadir}/mime/packages
+install -m 644 anki.xml %{buildroot}%{_datadir}/mime/packages
+
+install -d %{buildroot}%{_datadir}/pixmaps
+install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/pixmaps/
+
+install -d %{buildroot}%{_mandir}/man1
+install -m 644 anki.1 %{buildroot}%{_mandir}/man1/
+
 desktop-file-install \
   --remove-category=KDE \
   --dir %{buildroot}%{_datadir}/applications \
   %{name}.desktop
 
-install -d %{buildroot}%{_datadir}/pixmaps
-install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/pixmaps/
-
 find %{buildroot} -type f -o -type l|sed '
 s:'"%{buildroot}"'::
-s:\(.*/lib/python2\..*/site-packages/ankiqt/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
-s:\(.*/lib/python2\..*/site-packages/anki/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
+s:\(.*/share/anki/locale/\)\([^/_]\+\)\(.*\.mo$\):%lang(\2) \1\2\3:
+s:\(.*/share/anki/locale/qt_\)\([^.]\+\)\(\.qm\):%lang(\2) \1\2\3:
 s:^\([^%].*\)::
 s:%lang(C) ::
 /^$/d' > anki.lang
 
+find %{buildroot}/usr/share/anki/locale -type d|sed '
+s:'"%{buildroot}"'::
+s:\(.*\):%dir \1:' >>anki.lang
 
+%post
+/usr/bin/update-desktop-database &> /dev/null || :
+/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 
-%clean
-rm -rf %{buildroot}
-
+%postun
+/usr/bin/update-desktop-database &> /dev/null || :
+/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
-%doc ChangeLog
-%doc COPYING CREDITS README*
-# libankiqt
-%dir %{python_sitelib}/ankiqt
-%{python_sitelib}/ankiqt/*.py*
-%{python_sitelib}/ankiqt/ui
-%{python_sitelib}/ankiqt/forms
-
-# libanki
-%dir %{python_sitelib}/anki
-%{python_sitelib}/anki/*.py*
-%{python_sitelib}/anki/importing
-%{python_sitelib}/anki/template
-
-# locale
-%dir %{python_sitelib}/ankiqt/locale/
-%dir %{python_sitelib}/ankiqt/locale/*
-%dir %{python_sitelib}/ankiqt/locale/*/LC_MESSAGES
-%dir %{python_sitelib}/anki/locale/
-%dir %{python_sitelib}/anki/locale/*
-%dir %{python_sitelib}/anki/locale/*/LC_MESSAGES
-
-%{python_sitelib}/*egg-info
+%doc LICENSE.* README*
 %{_bindir}/anki
+%dir %{_datadir}/%{name}/
+%{_datadir}/%{name}/aqt/
+%{_datadir}/%{name}/designer/
+%{_datadir}/%{name}/anki/
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/%{name}.svg
+%{_datadir}/pixmaps/%{name}.*
+%{_datadir}/mime/packages/anki.xml
+%{_mandir}/man1/%{name}.*
 
 %changelog
+* Thu Jan 10 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.4-1
+- Update to anki-2.0.4 (based on work from Christophe Fergeau <cfergeau@redhat.com>)
+- Update license to AGPLv3+
+- Update noupdate patch
+- Add man page
+- Add post/postun scripts (needed for MimeType key in anki.desktop and for
+  /usr/share/mime/packages/anki.xml)
+- Spec file cleanup
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
