@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.4
+Version:	2.0.7
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -36,6 +36,7 @@ rm -rf libanki/thirdparty
 
 %install
 mkdir -p %{buildroot}%{_datadir}/%{name}
+rm -f aqt/*.noupdate
 cp -R aqt %{buildroot}%{_datadir}/%{name}/
 cp -R designer %{buildroot}%{_datadir}/%{name}/
 cp -R anki %{buildroot}%{_datadir}/%{name}/
@@ -95,6 +96,9 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_mandir}/man1/%{name}.*
 
 %changelog
+* Sat Feb 02 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.7-1
+- Update to new upstream version 2.0.7
+
 * Thu Jan 10 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.4-1
 - Update to anki-2.0.4 (based on work from Christophe Fergeau <cfergeau@redhat.com>)
 - Update license to AGPLv3+
