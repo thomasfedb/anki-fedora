@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	2.0.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -13,6 +13,10 @@ Source1:	anki.svg
 
 # Config change: don't check for new updates.
 Patch0:		anki-2.0.3-noupdate.patch
+# Patch to fix filter selection in browser view
+# https://anki.lighthouseapp.com/projects/100923/tickets/729-browser-filter-tree-doesnt-filter
+# https://github.com/dae/anki/commit/6ddc276d57de297e6fcb57ad68e55abbea5c4dc4
+Patch1:		0001-workaround-for-filter-tree-onclick-not-working-729.patch
 BuildRequires:	python2-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
 Requires:	qt4, PyQt4
@@ -31,12 +35,14 @@ as possible. Anki is based on a theory called spaced repetition.
 %setup -q
 rm -rf libanki/thirdparty
 %patch0 -p1 -b .noupdate
+%patch1 -p1 -b .fix-browserview
 
 %build
 
 %install
 mkdir -p %{buildroot}%{_datadir}/%{name}
 rm -f aqt/*.noupdate
+rm -f aqt/*.fix-browserview
 cp -R aqt %{buildroot}%{_datadir}/%{name}/
 cp -R designer %{buildroot}%{_datadir}/%{name}/
 cp -R anki %{buildroot}%{_datadir}/%{name}/
@@ -96,6 +102,10 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_mandir}/man1/%{name}.*
 
 %changelog
+* Mon Apr 01 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.8-2
+- Add patch to fix filter selection in browser view:
+  https://anki.lighthouseapp.com/projects/100923/tickets/729-browser-filter-tree-doesnt-filter
+
 * Sun Feb 24 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.8-1
 - Update to new upstream version 2.0.8
 
