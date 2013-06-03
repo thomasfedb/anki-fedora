@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.8
-Release:	2%{?dist}
+Version:	2.0.9
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -13,10 +13,6 @@ Source1:	anki.svg
 
 # Config change: don't check for new updates.
 Patch0:		anki-2.0.3-noupdate.patch
-# Patch to fix filter selection in browser view
-# https://anki.lighthouseapp.com/projects/100923/tickets/729-browser-filter-tree-doesnt-filter
-# https://github.com/dae/anki/commit/6ddc276d57de297e6fcb57ad68e55abbea5c4dc4
-Patch1:		0001-workaround-for-filter-tree-onclick-not-working-729.patch
 BuildRequires:	python2-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
 Requires:	qt4, PyQt4
@@ -33,9 +29,10 @@ as possible. Anki is based on a theory called spaced repetition.
 
 %prep
 %setup -q
-rm -rf libanki/thirdparty
+mv thirdparty/send2trash .
+rm -rf thirdparty
+rmdir anki/~
 %patch0 -p1 -b .noupdate
-%patch1 -p1 -b .fix-browserview
 
 %build
 
@@ -47,6 +44,8 @@ cp -R aqt %{buildroot}%{_datadir}/%{name}/
 cp -R designer %{buildroot}%{_datadir}/%{name}/
 cp -R anki %{buildroot}%{_datadir}/%{name}/
 cp -R locale %{buildroot}%{_datadir}/%{name}/
+mkdir -p %{buildroot}%{_datadir}/%{name}/thirdparty
+cp -R send2trash %{buildroot}%{_datadir}/%{name}/thirdparty/
 
 install -d %{buildroot}%{_bindir}
 install -m 755 runanki %{buildroot}%{_bindir}/anki
@@ -96,12 +95,17 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_datadir}/%{name}/aqt/
 %{_datadir}/%{name}/designer/
 %{_datadir}/%{name}/anki/
+%{_datadir}/%{name}/thirdparty/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.*
 %{_datadir}/mime/packages/anki.xml
 %{_mandir}/man1/%{name}.*
 
 %changelog
+* Mon Jun 03 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.9-1
+- Update to new upstream version 2.0.9 (BZ 970052)
+- Remove patch (issue was fixed upstream)
+
 * Mon Apr 01 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.8-2
 - Add patch to fix filter selection in browser view:
   https://anki.lighthouseapp.com/projects/100923/tickets/729-browser-filter-tree-doesnt-filter
