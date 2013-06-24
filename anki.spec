@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.9
+Version:	2.0.11
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -31,7 +31,6 @@ as possible. Anki is based on a theory called spaced repetition.
 %setup -q
 mv thirdparty/send2trash .
 rm -rf thirdparty
-rmdir anki/~
 %patch0 -p1 -b .noupdate
 
 %build
@@ -102,6 +101,9 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_mandir}/man1/%{name}.*
 
 %changelog
+* Mon Jun 24 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.11-1
+- Update to new upstream version 2.0.11 (BZ 973523)
+
 * Mon Jun 03 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.9-1
 - Update to new upstream version 2.0.9 (BZ 970052)
 - Remove patch (issue was fixed upstream)
