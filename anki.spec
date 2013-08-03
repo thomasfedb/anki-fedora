@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	2.0.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -101,6 +101,9 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_mandir}/man1/%{name}.*
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Mon Jun 24 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.11-1
 - Update to new upstream version 2.0.11 (BZ 973523)
 
