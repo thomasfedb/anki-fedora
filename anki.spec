@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.11
-Release:	2%{?dist}
+Version:	2.0.12
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -49,9 +49,9 @@ cp -R send2trash %{buildroot}%{_datadir}/%{name}/thirdparty/
 install -d %{buildroot}%{_bindir}
 install -m 755 runanki %{buildroot}%{_bindir}/anki
 
-install -d %{buildroot}%{_docdir}/%{name}-%{version}
-install -m 644 LICENSE.* %{buildroot}%{_docdir}/%{name}-%{version}/
-install -m 644 README* %{buildroot}%{_docdir}/%{name}-%{version}/
+install -d %{buildroot}%{_pkgdocdir}
+install -m 644 LICENSE* %{buildroot}%{_pkgdocdir}/
+install -m 644 README* %{buildroot}%{_pkgdocdir}/
 
 install -d %{buildroot}%{_datadir}/mime/packages
 install -m 644 anki.xml %{buildroot}%{_datadir}/mime/packages
@@ -101,6 +101,11 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_mandir}/man1/%{name}.*
 
 %changelog
+* Sun Aug 04 2013 Christian Krause <chkr@fedoraproject.org> - 2.0.12-1
+- Update to new upstream version 2.0.12 (BZ 989901)
+- Install docs to %%{_pkgdocdir} (BZ 991962)
+- Install additional LICENSE file
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
