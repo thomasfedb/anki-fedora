@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.25
+Version:	2.0.26
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -10,6 +10,7 @@ License:	AGPLv3+ and GPLv3+ and MIT and BSD
 URL:		http://ankisrs.net/
 Source0:	http://ankisrs.net/download/mirror/anki-%{version}.tgz
 Source1:	anki.svg
+Source2:	anki.appdata.xml
 
 # Config change: don't check for new updates.
 Patch0:		anki-2.0.3-noupdate.patch
@@ -62,6 +63,9 @@ install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/pixmaps/
 install -d %{buildroot}%{_mandir}/man1
 install -m 644 anki.1 %{buildroot}%{_mandir}/man1/
 
+mkdir -p %{buildroot}%{_datadir}/appdata
+install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/
+
 desktop-file-install \
   --remove-category=KDE \
   --dir %{buildroot}%{_datadir}/applications \
@@ -99,8 +103,13 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_datadir}/pixmaps/%{name}.*
 %{_datadir}/mime/packages/anki.xml
 %{_mandir}/man1/%{name}.*
+%{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Tue May 20 2014 Christian Krause <chkr@fedoraproject.org> - 2.0.26-1
+- Update to new upstream version 2.0.26 (BZ 1090863)
+- Add appdata
+
 * Fri Apr 18 2014 Christian Krause <chkr@fedoraproject.org> - 2.0.25-1
 - Update to new upstream version 2.0.25 (BZ 1087211)
 
