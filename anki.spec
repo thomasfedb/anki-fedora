@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	2.0.26
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -84,12 +84,18 @@ s:'"%{buildroot}"'::
 s:\(.*\):%dir \1:' >>anki.lang
 
 %post
+/bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
 /usr/bin/update-desktop-database &> /dev/null || :
-/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %postun
 /usr/bin/update-desktop-database &> /dev/null || :
-/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
+if [ $1 -eq 0 ] ; then
+  /bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
+  /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+fi
+
+%posttrans
+/usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f %{name}.lang
 %doc LICENSE.* README*
@@ -106,6 +112,9 @@ s:\(.*\):%dir \1:' >>anki.lang
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Tue Jul 08 2014 Rex Dieter <rdieter@fedoraproject.org> 2.0.26-3
+- optimize mimeinfo scriptlet
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.26-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
