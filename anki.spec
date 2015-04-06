@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.31
+Version:	2.0.32
 Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
@@ -16,6 +16,7 @@ Source2:	anki.appdata.xml
 Patch0:		anki-2.0.3-noupdate.patch
 BuildRequires:	python2-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
+Requires:	hicolor-icon-theme
 Requires:	qt4, PyQt4
 Requires:	python-sqlalchemy, python-simplejson
 Requires:	python-matplotlib
@@ -57,8 +58,8 @@ install -m 644 README* %{buildroot}%{_pkgdocdir}/
 install -d %{buildroot}%{_datadir}/mime/packages
 install -m 644 anki.xml %{buildroot}%{_datadir}/mime/packages
 
-install -d %{buildroot}%{_datadir}/pixmaps
-install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/pixmaps/
+install -d %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
+install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 
 install -d %{buildroot}%{_mandir}/man1
 install -m 644 anki.1 %{buildroot}%{_mandir}/man1/
@@ -68,6 +69,7 @@ install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/
 
 desktop-file-install \
   --remove-category=KDE \
+  --set-key=Keywords --set-value="learn;education;memorizing;language;flashcard;spaced repetition;" \
   --dir %{buildroot}%{_datadir}/applications \
   %{name}.desktop
 
@@ -86,16 +88,20 @@ s:\(.*\):%dir \1:' >>anki.lang
 %post
 /bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
 /usr/bin/update-desktop-database &> /dev/null || :
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun
 /usr/bin/update-desktop-database &> /dev/null || :
 if [ $1 -eq 0 ] ; then
   /bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
   /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+  /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+  /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
 fi
 
 %posttrans
 /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+/usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
 %doc LICENSE.* README*
@@ -106,12 +112,19 @@ fi
 %{_datadir}/%{name}/anki/
 %{_datadir}/%{name}/thirdparty/
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/%{name}.*
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.*
 %{_datadir}/mime/packages/anki.xml
 %{_mandir}/man1/%{name}.*
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Sun Apr 05 2015 Christian Krause <chkr@fedoraproject.org> - 2.0.32-1
+- Update to new upstream version 2.0.32 (BZ 1205471)
+- Move icon to %%{_datadir}/icons/hicolor/scalable/apps
+- Modify svg icon to use only the subset of the SVG specification
+  which is implemented by Qt's SVG library
+- Add keywords to desktop file
+
 * Mon Nov 03 2014 Christian Krause <chkr@fedoraproject.org> - 2.0.31-1
 - Update to new upstream version 2.0.31 (BZ 1144973)
 
