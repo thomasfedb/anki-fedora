@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.32
-Release:	2%{?dist}
+Version:	2.0.33
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -104,7 +104,7 @@ fi
 /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
-%doc LICENSE.* README*
+%doc LICENSE* README*
 %{_bindir}/anki
 %dir %{_datadir}/%{name}/
 %{_datadir}/%{name}/aqt/
@@ -118,6 +118,10 @@ fi
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Mon Nov 30 2015 Christian Krause <chkr@fedoraproject.org> - 2.0.33-1
+- Update to new upstream version 2.0.33 (BZ 1270574)
+- Correct files list entry for LICENSE files
+
 * Tue Jun 16 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.32-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
