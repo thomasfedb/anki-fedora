@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	2.0.33
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -17,7 +17,7 @@ Patch0:		anki-2.0.3-noupdate.patch
 BuildRequires:	python2-devel, python-setuptools, python-sqlalchemy
 BuildRequires:	desktop-file-utils, PyQt4, python-simplejson
 Requires:	hicolor-icon-theme
-Requires:	qt4, PyQt4
+Requires:	qt4, PyQt4, PyQt4-webkit
 Requires:	python-sqlalchemy, python-simplejson
 Requires:	python-matplotlib
 Requires:	pygame, python-BeautifulSoup, python-httplib2
@@ -118,6 +118,9 @@ fi
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Wed Mar 02 2016 Rex Dieter <rdieter@fedoraproject.org> 2.0.33-3
+- Requires: PyQt4-webkit
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.33-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
