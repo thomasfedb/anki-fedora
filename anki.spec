@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.33
-Release:	3%{?dist}
+Version:	2.0.36
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -118,6 +118,9 @@ fi
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Sun Aug 07 2016 Christian Krause <chkr@fedoraproject.org> - 2.0.36-1
+- Update to new upstream version 2.0.36 (BZ 1321457)
+
 * Wed Mar 02 2016 Rex Dieter <rdieter@fedoraproject.org> 2.0.33-3
 - Requires: PyQt4-webkit
 
