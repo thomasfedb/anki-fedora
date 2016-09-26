@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	2.0.36
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -118,6 +118,9 @@ fi
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Mon Sep 26 2016 Dominik Mierzejewski <rpm@greysector.net> - 2.0.36-2
+- rebuilt for matplotlib-2.0.0
+
 * Sun Aug 07 2016 Christian Krause <chkr@fedoraproject.org> - 2.0.36-1
 - Update to new upstream version 2.0.36 (BZ 1321457)
 
