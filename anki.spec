@@ -1,14 +1,14 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		anki
-Version:	2.0.36
-Release:	2%{?dist}
+Version:	2.0.39
+Release:	1%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
 License:	AGPLv3+ and GPLv3+ and MIT and BSD
-URL:		http://ankisrs.net/
-Source0:	http://ankisrs.net/download/mirror/anki-%{version}.tgz
+URL:		https://apps.ankiweb.net/
+Source0:	https://apps.ankiweb.net/downloads/current/anki-%{version}-source.tgz
 Source1:	anki.svg
 Source2:	anki.appdata.xml
 
@@ -118,6 +118,10 @@ fi
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Sun Jan 22 2017 Christian Krause <chkr@fedoraproject.org> - 2.0.39-1
+- Update to new upstream version 2.0.39 (BZ 1406760)
+- Update source and project URL
+
 * Mon Sep 26 2016 Dominik Mierzejewski <rpm@greysector.net> - 2.0.36-2
 - rebuilt for matplotlib-2.0.0
 
