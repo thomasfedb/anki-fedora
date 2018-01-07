@@ -2,7 +2,7 @@
 
 Name:		anki
 Version:	2.0.43
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Flashcard program for using space repetition learning
 
 Group:		Amusements/Games
@@ -86,24 +86,6 @@ find %{buildroot}/usr/share/anki/locale -type d|sed '
 s:'"%{buildroot}"'::
 s:\(.*\):%dir \1:' >>anki.lang
 
-%post
-/bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
-/usr/bin/update-desktop-database &> /dev/null || :
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%postun
-/usr/bin/update-desktop-database &> /dev/null || :
-if [ $1 -eq 0 ] ; then
-  /bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
-  /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
-  /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-  /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans
-/usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
-/usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
-
 %files -f %{name}.lang
 %doc LICENSE* README*
 %{_bindir}/anki
@@ -119,6 +101,9 @@ fi
 %{_datadir}/appdata/anki.appdata.xml
 
 %changelog
+* Sun Jan 07 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 2.0.43-3
+- Remove obsolete scriptlets
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.43-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
