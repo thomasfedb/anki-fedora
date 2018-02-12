@@ -33,7 +33,6 @@ as possible. Anki is based on a theory called spaced repetition.
 %setup -q
 mv thirdparty/send2trash .
 rm -rf thirdparty
-rm 'aqt/forms/#about.py#'
 %patch0 -p1 -b .noupdate
 
 %build
